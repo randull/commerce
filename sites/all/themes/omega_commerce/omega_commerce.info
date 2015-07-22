@@ -8,10 +8,8 @@ core = 7.x
 ; ========================================
 ; Stylesheets
 ; ========================================
-stylesheets[all][] = css/omega-commerce.normalize.css
-stylesheets[all][] = css/omega-commerce.hacks.css
+stylesheets[all][] = css/omega-commerce.reset.css
 stylesheets[all][] = css/omega-commerce.styles.css
-stylesheets[all][] = css/omega-commerce.no-query.css
 
 ; ========================================
 ; Scripts

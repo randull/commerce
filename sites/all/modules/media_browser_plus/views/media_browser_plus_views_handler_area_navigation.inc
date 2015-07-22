@@ -65,13 +65,27 @@ class media_browser_plus_views_handler_area_navigation extends views_handler_are
     }
     $this->ensure_my_table();
     $where_group = 1;
+
+    // Ensure folders is always an array.
+    $folders = array($this->value);
+    // If including subfolders is enabled fetch all child terms of the current
+    // folder.
+    if (isset($this->view->exposed_data['mbp_current_folder_include_subfolders']) && $this->view->exposed_data['mbp_current_folder_include_subfolders'] !== 0) {
+      $taxonomy_tree = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('media_folders')->vid, $this->value);
+      if (is_array($taxonomy_tree)) {
+        foreach ($taxonomy_tree as $term) {
+          $folders[] = (int) $term->tid;
+        }
+      }
+    }
+
     // If this is the root folder also show files without a folder.
     if ($this->value == $root_folder->tid) {
       // Add new where group to use OR condition.
       $where_group = $this->query->set_where_group('OR');
       $this->query->add_where($where_group, "$this->table_alias.$this->real_field", $this->value, 'IS NULL');
     }
-    $this->query->add_where($where_group, "$this->table_alias.$this->real_field", $this->value, '=');
+    $this->query->add_where($where_group, "$this->table_alias.$this->real_field", $folders, 'IN');
   }
 
   /**
@@ -130,6 +144,13 @@ class media_browser_plus_views_handler_area_navigation extends views_handler_are
       '#attributes' => array(
         'class' => array('mbp-selected-folder'),
       ),
+    );
+
+    // Add a checkbox to include subfolders in the view results.
+    $form['mbp_current_folder_include_subfolders'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Include subfolders in results'),
+      '#default_value' => 0,
     );
   }
 }
