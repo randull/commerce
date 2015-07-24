@@ -19,9 +19,9 @@ regions_hidden[] = sidebar_first
 
 
 
-; Information added by drush on 2015-07-21
+; Information added by drush on 2015-07-23
 version = "7.x-1.6"
 core = "7.x"
 project = "shiny"
-datestamp = "1437538343"
+datestamp = "1437700210"
 

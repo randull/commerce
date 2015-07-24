@@ -83,7 +83,7 @@ projects[] = views_bulk_operations
 
 ; Themes
 projects[omega][type] = theme
-projects[omega][version] = 4.3
+projects[omega][version] = 4.4
 projects[omega][download][type] = git
 projects[omega][download][url] = http://git.drupal.org/project/omega.git
 projects[omega][download][branch] = 7.x-4.x
