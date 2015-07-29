@@ -15,3 +15,5 @@ By DamienMcKenna: Updated README.txt file.
 #2422881 by AndreyMaximov: Add support for for Media fields.
 #2064357 by jpstrikesback, DamienMcKenna: Incorrect value passed to
   image_style_url().
+#2407461 by DamienMcKenna: Add option to control which file and media fields
+  should have the image tokens added.
