@@ -1,4 +1,4 @@
-Imagecache_Token 7.x-1.x-dev, xxxx-xx-xx
+Imagecache_Token 7.x-1.0-rc1, 2015-08-01
 ----------------------------------------
 Initial commit.
 #1525210 by merlinofchaos, s1l: Added Tokens for images on Entities.
@@ -17,3 +17,9 @@ By DamienMcKenna: Updated README.txt file.
   image_style_url().
 #2407461 by DamienMcKenna: Add option to control which file and media fields
   should have the image tokens added.
+#2407461 by DamienMcKenna: Improvements to the admin form.
+#2407461 by DamienMcKenna: Admin form wasn't saving values.
+#2407461 by DamienMcKenna: Remove the variable via hook_uninstall().
+#2407461 by DamienMcKenna: Always support image fields.
+#2344465 by doubouil, DamienMcKenna: Fixed the image height, weight attributes,
+  added the extension and filesize attributes.

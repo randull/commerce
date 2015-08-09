@@ -317,7 +317,6 @@ ul.primary {
   border-bottom: none;
   text-transform: uppercase;
   font-size: 0.923em;
-  height: 2.60em;
   margin: 0;
   padding-top: 0;
 }
@@ -856,14 +855,6 @@ textarea.form-textarea:focus,
 select.form-select:focus {
   color: #000;
   border-color: #ace;
-}
-
-html.js input.form-autocomplete {
-  background-position: 100% 4px;
-}
-
-html.js input.throbbing {
-  background-position: 100% -16px;
 }
 
 ul.action-links {

@@ -23,26 +23,21 @@ function imagecache_token_settings_form() {
     }
   }
 
-  if (!empty($options)) {
-    $form['imagecache_token_fields'] = array(
-      '#type' => 'checkboxes',
-      '#options' => $options,
-      '#title' => t('"File" and "Media" fields that contain images'),
-      '#description' => t('All "image" fields are automatically given tokens for each image style currently on the system. "File" and "Media" fields <em>may</em> be used for images, but as they may also be used for other types of files the fields that <em>are</em> used for images must be indicated.')
-    );
+  $form['imagecache_token_fields'] = array(
+    '#title' => t('"File" and "Media" fields that contain images'),
+    '#type' => 'checkboxes',
+    '#options' => $options,
+    '#default_value' => variable_get('imagecache_token_fields', array()),
+  );
 
-    $form = system_settings_form($form);
+  if (!empty($options)) {
+    $form['imagecache_token_fields']['#description'] = t('All "image" fields are automatically given tokens for each image style currently on the system. "File" and "Media" fields <em>may</em> be used for images, but as they may also be used for other types of files the fields that <em>are</em> used for images must be indicated.');
   }
   else {
-    $form['nada'] = array(
-      '#type' => 'markup',
-      '#markup' => t('There are no "file" or "media" fields, so there is nothing to configure.'),
-      '#prefix' => '<p>',
-      '#suffix' => '</p>',
-    );
+    $form['imagecache_token_fields']['#description'] = t('There are no "file" or "media" fields, so there is nothing to configure.');
   }
 
-  return $form;
+  return system_settings_form($form);
 }
 
 /**
