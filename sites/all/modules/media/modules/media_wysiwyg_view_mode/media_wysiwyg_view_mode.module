@@ -58,9 +58,9 @@ function media_wysiwyg_view_mode_entity_info_alter(&$entity_info) {
 }
 
 /**
- * Implements hook_media_wysiwyg_wysiwyg_allowed_view_modes_alter().
+ * Implements hook_media_wysiwyg_allowed_view_modes_alter().
  */
-function media_wysiwyg_view_mode_media_wysiwyg_wysiwyg_allowed_view_modes_alter(&$view_modes, &$file) {
+function media_wysiwyg_view_mode_media_wysiwyg_allowed_view_modes_alter(&$view_modes, &$file) {
   if (variable_get("media_wysiwyg_view_mode_{$file->type}_wysiwyg_restricted_view_modes_status", FALSE) == TRUE) {
     $restricted_view_modes = variable_get("media_wysiwyg_view_mode_{$file->type}_wysiwyg_restricted_view_modes", array());
 
