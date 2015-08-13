@@ -1,0 +1,92 @@
+<?php
+
+/**
+ * @file
+ * Handles installation for Commerce FedEx module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function commerce_fedex_uninstall() {
+  $variables = array(
+    'commerce_fedex_key',
+    'commerce_fedex_password',
+    'commerce_fedex_account_number',
+    'commerce_fedex_meter_number',
+    'commerce_fedex_key_testing',
+    'commerce_fedex_password_testing',
+    'commerce_fedex_account_number_testing',
+    'commerce_fedex_meter_number_testing',
+    'commerce_fedex_request_mode',
+    'commerce_fedex_shipper_name',
+    'commerce_fedex_company_name',
+    'commerce_fedex_address_line_1',
+    'commerce_fedex_address_line_2',
+    'commerce_fedex_city',
+    'commerce_fedex_state',
+    'commerce_fedex_postal_code',
+    'commerce_fedex_country_code',
+    'commerce_fedex_services',
+    'commerce_fedex_show_logo',
+    'commerce_fedex_default_package_type',
+    'commerce_fedex_default_package_size_length',
+    'commerce_fedex_default_package_size_width',
+    'commerce_fedex_default_package_size_height',
+    'commerce_fedex_shipto_residential',
+    'commerce_fedex_log',
+    'commerce_fedex_dropoff',
+    'commerce_fedex_insurance',
+    'commerce_fedex_smartpost_indicia_type',
+    'commerce_fedex_smartpost_hub_id',
+  );
+  foreach ($variables as $variable) {
+    variable_del($variable);
+  }
+}
+
+/**
+ * Migrate configuration for testing environments.
+ */
+function commerce_fedex_update_7101() {
+  $variables_to_convert = array(
+    'commerce_fedex_key',
+    'commerce_fedex_password',
+    'commerce_fedex_account_number',
+    'commerce_fedex_meter_number',
+  );
+
+  // If we're in testing mode, put all of the values into the appropriate slots.
+  if ('testing' == variable_get('commerce_fedex_request_mode', 'testing')) {
+    foreach ($variables_to_convert as $variable) {
+      variable_set($variable . '_testing', variable_get($variable));
+      variable_set($variable, NULL);
+    }
+  }
+}
+
+/**
+ * Implements hook_requirements()
+ */
+function commerce_fedex_requirements($phase) {
+  $requirements = array();
+
+  if ($phase == 'runtime') {
+    if (class_exists('SoapClient')) {
+      $requirements['commerce_fedex'] = array(
+        'title' => t('Soap extension'),
+        'value' => t('Enabled'),
+        'severity' => REQUIREMENT_OK,
+      );
+    } else {
+      $requirements['commerce_fedex'] = array(
+        'title' => t('Soap extension'),
+        'value' => t('Not enabled'),
+        'severity' => REQUIREMENT_ERROR,
+        'description' => t('The SOAP library for PHP is missing. Check the <a href="@url">PHP SOAP documentation</a> for information on how to correct this.', array('@url' => 'http://www.php.net/manual/en/book.soap.php')),
+      );
+    }
+  }
+
+  return $requirements;
+}

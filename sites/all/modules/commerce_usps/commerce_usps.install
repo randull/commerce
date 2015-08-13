@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * @file
+ * Handles installation for Commerce USPS module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function commerce_usps_uninstall() {
+  $fields = array(
+    'commerce_usps_postal_code',
+    'commerce_usps_services',
+    'commerce_usps_services_int',
+    'commerce_usps_connection_address',
+    'commerce_usps_user',
+    'commerce_usps_show_logo',
+    'commerce_usps_log',
+  );
+
+  foreach ($fields as $data) {
+    variable_del($data);
+  }
+}
+
+/**
+ * Updates existing usps shipping services to their new keys.
+ */
+function commerce_usps_update_7000() {
+  // We've removed the markup features since this can be done with Rules.
+  variable_del('commerce_usps_markup');
+  variable_del('commerce_usps_markup_type');
+
+  // The previous service names.
+  $service_names = array(
+    'FIRST CLASS' => 'usps_first_class',
+    'PRIORITY' => 'usps_priority_mail',
+    'EXPRESS' => 'usps_express_mail',
+    'PARCEL' => 'usps_standard_post',
+    'MEDIA' => 'usps_media_mail',
+    'LIBRARY' => 'usps_library_mail',
+  );
+
+  $services = variable_get('commerce_usps_services', array());
+  $services_new = array();
+  // Loop through the selected services and update their new service names.
+  foreach ($services as $service) {
+    $services_new[$service_names[$service]] = $service_names[$service];
+  }
+
+  // Override the services variable with the new values.
+  variable_set('commerce_usps_services', $services_new);
+  commerce_shipping_services_reset();
+  entity_defaults_rebuild();
+  rules_clear_cache(TRUE);
+  menu_rebuild();
+
+  return t('Existing USPS shipping rules have been updated to the latest version. Be sure to clear your cache if you have issues.');
+}
